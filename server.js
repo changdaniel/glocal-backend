@@ -151,7 +151,6 @@ function parseFilters(questionnaire){
     minnoratings: 0,
     maxnoratings: 100,
     maxprice: 1,
-    night_owl: false,
     categories: [],
     gem: false
     };
@@ -159,21 +158,29 @@ function parseFilters(questionnaire){
     questionnaire["profileQuestions"].forEach(function(question){
         question["options"].forEach(function(option){
             if ("parentcategories" in option){};
-            if ("childcategories" in option){};
+            if ("childcategories" in option){
+                option["childcategories"].forEach(function(childcat){
+                    filter["categories"].push(childcat)    
+                })
+            };
             if ("gem" in option){
                 filter["gem"] = option["gem"]
             };
             if ("minnoratings" in option){
-                filter["minnoratings"] = option["minnoratings"]
+
+                if (filter["maxnoratings"] > option["minnoratings"])
+                {
+                    filter["minnoratings"] = option["minnoratings"]
+                }
             };
             if ("maxnoratings" in option){
-                filter["maxnoratings"] = option["maxnoratings"]
+                if (filter["minnoratings"] < option["maxnoratings"])
+                {
+                    filter["maxnoratings"] = option["maxnoratings"]
+                }
             };
             if ("maxprice" in option){
                 filter["maxprice"] = option["maxprice"]
-            };
-            if ("nightowl" in option){
-                filter["nightowl"] = option["nightowl"]
             };
             if ("minrating" in option){
                 filter["minrating"] = option["minrating"]
