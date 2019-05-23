@@ -1,6 +1,6 @@
 var jsondata = require('./data.json');
 var chicagocategorytree = require('./chicagocategorytree.json')
-
+var questions = require('./questions.json')
 
 
 var jsonreccomendations;
@@ -10,7 +10,7 @@ var jsonfilter = {
     maxnoratings: 100,
     maxprice: 1,
     night_owl: true,
-    categories = [],
+    categories: ["restaurants"],
     gem: true
 }
 
@@ -144,16 +144,58 @@ function breakParent(parents){
     
 }
 
-function addCategories(){
+function parseFilters(questionnaire){
+
+    var filter = {
+    minrating: 1,
+    minnoratings: 0,
+    maxnoratings: 100,
+    maxprice: 1,
+    night_owl: false,
+    categories: [],
+    gem: false
+    };
+
+    questionnaire["profileQuestions"].forEach(function(question){
+        question["options"].forEach(function(option){
+            if ("parentcategories" in option){};
+            if ("childcategories" in option){};
+            if ("gem" in option){
+                filter["gem"] = option["gem"]
+            };
+            if ("minnoratings" in option){
+                filter["minnoratings"] = option["minnoratings"]
+            };
+            if ("maxnoratings" in option){
+                filter["maxnoratings"] = option["maxnoratings"]
+            };
+            if ("maxprice" in option){
+                filter["maxprice"] = option["maxprice"]
+            };
+            if ("nightowl" in option){
+                filter["nightowl"] = option["nightowl"]
+            };
+            if ("minrating" in option){
+                filter["minrating"] = option["minrating"]
+            };
+        });
+    });
     
+
     
-    
+    return filter;
 }
 
 function isDict(v) {
     return typeof v==='object' && v!==null && !(v instanceof Array) && !(v instanceof Date);
 }
 
-console.log(filterNonMidnight(jsondata))
+
+console.log(parseFilters(questions));
+
+// ex: 2nd child-category for the first option of the 5th question
+//console.log(questions["profileQuestions"][4]["options"][0]["childcategories"][1]); 
+
+//console.log(filterNonMidnight(jsondata))
 //console.log(jsondata[0].hours[0].open)
 
