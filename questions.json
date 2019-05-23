@@ -506,17 +506,15 @@
           "image": "../assets/questionIcons/65.png",
           "no": 65,
           "childcategories": ["parks", "playgrounds", "kiteboarding", "amusementparks", "golf",
-           "beaches", "hiking", "fishing", "sailing", "gardens", "pettingzoos"],
+           "beaches", "hiking", "fishing", "sailing", "gardens", "pettingzoos", "horsebackriding", "streetvendors",
+           "farmersmarket", "foodtrucks", "foodstands", ""],
           "parentcategories": ["tours"]
 
         },
         {
           "name": "INDOOR",
           "image": "../assets/questionIcons/66.png",
-          "no": 66,
-          "childcategories": ["fencing", "indoor_playcenter", "axethrowing", "aquariums", "lasertag", "gun_ranges",
-           "bowling", "sports_clubs", "comedyclubs", "theater", "musicvenues", "landmarks"],
-          "parentcategories": ["movietheaters", "tastingclasses", "wineries", "museums"]
+          "no": 66
         }
       ]
     },
