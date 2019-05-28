@@ -1,4 +1,4 @@
-var jsondata = require('./data.json');
+var jsondata = require('./ChicagoSearchDataV4.json');
 var chicagocategorytree = require('./chicagocategorytree.json')
 var questions = require('./questions.json')
 
@@ -131,11 +131,11 @@ function breakParent(parents){
 
     parents.forEach(function (parent) {
         
-        if(chicagocategorytree[parent] != null){
+        if(chicagocategorytree[parent] != undefined){
             
-            for (const child of chicagocategorytree[parent].entries()) {
+            for (var key in chicagocategorytree[parent]) {
 
-                children.push(child)
+                children.push(key)
             }
         }
     })
@@ -144,61 +144,128 @@ function breakParent(parents){
     
 }
 
-function parseFilters(questionnaire){
+function parseQuestionFilters(questionnaire){
 
     var filter = {
     minrating: 1,
     minnoratings: 0,
     maxnoratings: 100,
     maxprice: 1,
-    categories: [],
-    gem: false
+    childcategories: [],
+    parentcategories: [],
+    gem: false,
+    allcategories: []
     };
-
+    
+    
+    
     questionnaire["profileQuestions"].forEach(function(question){
         question["options"].forEach(function(option){
-            if ("parentcategories" in option){};
+            if ("parentcategories" in option){
+                filter["parentcategories"] = filter["parentcategories"].concat(option["parentcategories"])
+            }
             if ("childcategories" in option){
-                option["childcategories"].forEach(function(childcat){
-                    filter["categories"].push(childcat)    
-                })
-            };
+                filter["childcategories"] = filter["childcategories"].concat(option["childcategories"])
+            }
             if ("gem" in option){
                 filter["gem"] = option["gem"]
-            };
+            }
             if ("minnoratings" in option){
 
                 if (filter["maxnoratings"] > option["minnoratings"])
                 {
                     filter["minnoratings"] = option["minnoratings"]
                 }
-            };
+            }
             if ("maxnoratings" in option){
                 if (filter["minnoratings"] < option["maxnoratings"])
                 {
                     filter["maxnoratings"] = option["maxnoratings"]
                 }
-            };
+            }
             if ("maxprice" in option){
                 filter["maxprice"] = option["maxprice"]
-            };
+            }
             if ("minrating" in option){
                 filter["minrating"] = option["minrating"]
-            };
+            }
         });
     });
     
-
-    
+    combinedcategories = combineCategories(filter["childcategories"], filter["parentcategories"]);
+    filter['allcategories'] = removeDuplicateCategories(combinedcategories);
     return filter;
 }
 
-function isDict(v) {
-    return typeof v==='object' && v!==null && !(v instanceof Array) && !(v instanceof Date);
+function removeDuplicateCategories(categories){
+    
+    var inserted = {};
+    var uniquecategories = [];
+
+    categories.forEach(function(category){
+
+        if(inserted[category] == undefined){
+            inserted[category] = true;
+            uniquecategories.push(category)
+        }
+    })
+
+    return uniquecategories;
+}
+
+function combineCategories(children, parents)
+{
+
+   
+    var allcategories = [];
+    allcategories = breakParent(parents);
+    allcategories = allcategories.concat(children);
+
+    return allcategories;
+
+    
+
+}
+
+function addLocationsFromCategories(childcategories, locations){
+
+    data = []
+    // add data in correct categories
+
+    locations.forEach(function(location){
+
+        var valid = false
+
+        if (("categories" in location)) {
+
+            location["categories"].forEach(function(category){
+                
+                if (childcategories.includes(category["alias"])){
+                    valid = true
+                }
+            });
+
+            if (valid) {
+                data.push(location)
+            }
+
+        }
+             
+     });
+
+    return data
+
 }
 
 
-console.log(parseFilters(questions));
+//console.log(parseQuestionFilters(questions));
+
+var filt = parseQuestionFilters(questions);
+var loc = addLocationsFromCategories(filt["allcategories"], jsondata)
+console.log(loc)
+console.log(loc.length)
+
+//console.log(jsondata.length)
 
 // ex: 2nd child-category for the first option of the 5th question
 //console.log(questions["profileQuestions"][4]["options"][0]["childcategories"][1]); 
