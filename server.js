@@ -60,13 +60,13 @@ function filterMaxPrice(maxprice, locations) {
 
 }
 
-function filterMaxNoReviews(maxnoreviews, locations) {
+function filterMaxNoRatings(maxnoratings, locations) {
 
     var filteredlocations = [];
 
      locations.forEach(function(location){
 
-        if(location.review_count <= maxnoreviews)
+        if(location.review_count <= maxnoratings)
         {
             filteredlocations.push(location)
         }
@@ -77,13 +77,13 @@ function filterMaxNoReviews(maxnoreviews, locations) {
 
 }
 
-function filterMinNoReviews(minnoreviews, locations) {
+function filterMinNoRatings(minnoratings, locations) {
 
     var filteredlocations = [];
 
      locations.forEach(function(location){
 
-        if(location.review_count >= minnoreviews)
+        if(location.review_count >= minnoratings)
         {
             filteredlocations.push(location)
         }
@@ -156,7 +156,6 @@ function parseQuestionFilters(questionnaire){
     gem: false,
     allcategories: []
     };
-    
     
     
     questionnaire["profileQuestions"].forEach(function(question){
@@ -257,13 +256,53 @@ function addLocationsFromCategories(childcategories, locations){
 
 }
 
+function removeduplicateLocations(locations){
 
-//console.log(parseQuestionFilters(questions));
+    var inserted = {};
+    var uniquelocations = [];
+
+    locations.forEach(function(location){
+
+        if(inserted[location.id] == undefined){
+            inserted[location.id] = true;
+            uniquelocations.push(location)
+        }
+    })
+
+    return uniquelocations;
+
+}
+
+
 
 var filt = parseQuestionFilters(questions);
 var loc = addLocationsFromCategories(filt["allcategories"], jsondata)
 console.log(loc)
 console.log(loc.length)
+
+function filterAll(filterprofile, locations){
+
+    var filterprofile = {
+        minrating: 1,
+        minnoratings: 0,
+        maxnoratings: 100,
+        maxprice: 0,
+        childcategories: [],
+        parentcategories: [],
+        gem: false,
+        allcategories: []
+        };
+
+        return filterMinRating(filterprofile.minrating, filterMinNoRatings(filterprofile.minnoratings, filterMaxNoRatings(filterprofile.maxnoratings,filterMaxPrice(filterprofile.maxprice,removeduplicateLocations(locations)))));
+
+
+}
+
+//console.log(parseQuestionFilters(questions))
+var filt = parseQuestionFilters(questions)
+//var loc = addLocationsFromCategories(filt)
+
+console.log(filterAll(filt,loc))
 
 //console.log(jsondata.length)
 
