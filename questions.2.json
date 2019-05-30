@@ -1,0 +1,50 @@
+{
+  "profileQuestions": [
+    {
+      "question": "WHICH OF THESE SUBJECT(S) INTERESTS YOU?",
+      "allowMultiple": true,
+      "options": [
+        {
+          "name": "GEM LOCATIONS",
+          "image": "../assets/questionIcons/2.png",
+          "no": 2,
+          "gem": true
+          
+        },
+        {
+          "name": "FOOD & WINE",
+          "image": "../assets/questionIcons/3.png",
+          "no": 3,
+          "parentcategories": ["wineries", "bars", "gourmet"]
+        },
+        {
+          "name": "NIGHTLIFE",
+          "image": "../assets/questionIcons/4.png",
+          "no": 4,
+          "parentcategories": ["nightlife"]
+        }
+      ]
+    },
+    {
+      "question": "WHAT TYPE OF FOOD EXPERIENCES DO YOU LIKE?",
+      "allowMultiple": true,
+      "options": [
+        {
+          "name": "PARTY ORIENTED",
+          "image": "../assets/questionIcons/29.png",
+          "no": 29,
+          "childcategories": ["catering"]
+        },
+        {
+          "name": "HEALTHY",
+          "image": "../assets/questionIcons/32.png",
+          "no": 32,
+          "childcategories": ["salad", "vegetarian", "raw_food"]
+        }
+      ]
+    }
+  ],
+  "tripQuestions": [
+    
+  ]
+}

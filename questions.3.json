@@ -1,0 +1,97 @@
+{
+  "profileQuestions": [
+    {
+      "question": "WHICH OF THESE SUBJECT(S) INTERESTS YOU?",
+      "allowMultiple": true,
+      "options": [
+        {
+          "name": "CULTURE",
+          "image": "../assets/questionIcons/1.png",
+          "no": 1,
+          "parentcategories": ["arts", "religiousorgs", "museums"],
+          "childcategories": ["landmarks", "library", "tours", "galleries"]
+        },
+        {
+          "name": "CITY TOUR",
+          "image": "../assets/questionIcons/6.png",
+          "no": 6,
+          "childcategories": ["tours"]
+        },
+        {
+          "name": "MUSEUMS",
+          "image": "../assets/questionIcons/7.png",
+          "no": 7,
+          "childcategories": ["museums"]
+        }
+      ]
+    },
+    {
+      "question": "WHAT IS YOUR AGE?",
+      "allowMultiple": false,
+      "options": [
+        {
+          "name": "19-25 YEARS",
+          "image": "../assets/questionIcons/8.png",
+          "no": 8
+        }
+      ]
+    },
+    {
+      "question": "WHICH EXCITES YOU?",
+      "allowMultiple": true,
+      "options": [
+        {
+          "name": "FUN & GAMES",
+          "image": "../assets/questionIcons/17.png",
+          "no": 17,
+          "childcategories": ["videogames", "videogamestores", "arcades", "tabletopgames", "gametruckrental"]
+        },
+        {
+          "name": "MOTHER NATURE",
+          "image": "../assets/questionIcons/20.png",
+          "no": 20,
+          "childcategories": ["parks", "zoo", "fishing", "beaches", "aquariums"]
+          
+        },
+        {
+          "name": "RELIGION",
+          "image": "../assets/questionIcons/21.png",
+          "no": 21,
+          "parentcategories": ["religiousorgs"]
+        }
+      ]
+    },
+    {
+      "question": "WHAT KIND OF BOOKS DO YOU LIKE TO READ?",
+      "allowMultiple": true,
+      "options": [
+        {
+          "name": "FICTION",
+          "image": "../assets/questionIcons/36.png",
+          "no": 36
+        },
+        {
+          "name": "BIOGRAPHIES",
+          "image": "../assets/questionIcons/40.png",
+          "no": 40
+        },
+        {
+          "name": "DRAMA",
+          "image": "../assets/questionIcons/41.png",
+          "no": 41
+        }
+      ]
+    },
+    {
+      "question": "HOW WOULD YOU DEFINE YOUR WORK/STUDY LIFE?",
+      "allowMultiple": false,
+      "options": [
+        {
+          "name": "ROUTINE",
+          "image": "../assets/questionIcons/58.png",
+          "no": 58
+        }
+      ]
+    }
+  ]
+}

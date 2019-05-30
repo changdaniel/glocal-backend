@@ -2,17 +2,10 @@ var jsondata = require('./ChicagoSearchDataV4.json');
 var chicagocategorytree = require('./chicagocategorytree.json')
 var questions = require('./questions.json')
 
+var questions1 = require('./questions.1.json')
+var questions2 = require('./questions.2.json')
+var questions3 = require('./questions.3.json')
 
-var jsonreccomendations;
-
-var jsonfilter = {
-    minrating: 1,
-    maxnoratings: 100,
-    maxprice: 1,
-    night_owl: true,
-    categories: ["restaurants"],
-    gem: true
-}
 
 function filterMinRating(minrating, locations) {
 
@@ -263,8 +256,8 @@ function removeduplicateLocations(locations){
 
     locations.forEach(function(location){
 
-        if(inserted[location.id] == undefined){
-            inserted[location.id] = true;
+        if(inserted[location.name] == undefined){
+            inserted[location.name] = true;
             uniquelocations.push(location)
         }
     })
@@ -275,34 +268,85 @@ function removeduplicateLocations(locations){
 
 
 
-var filt = parseQuestionFilters(questions);
-var loc = addLocationsFromCategories(filt["allcategories"], jsondata)
-console.log(loc)
-console.log(loc.length)
+
+
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+  
 
 function filterAll(filterprofile, locations){
 
-    var filterprofile = {
-        minrating: 1,
-        minnoratings: 0,
-        maxnoratings: 100,
-        maxprice: 0,
-        childcategories: [],
-        parentcategories: [],
-        gem: false,
-        allcategories: []
-        };
+    // var filterprofile = {
+    //     minrating: 1,
+    //     minnoratings: 0,
+    //     maxnoratings: 100,
+    //     maxprice: 0,
+    //     childcategories: [],
+    //     parentcategories: [],
+    //     gem: false,
+    //     allcategories: []
+    //     };
+    if(locations.length >= 100){
+        return filterRandomHundred(filterMinRating(filterprofile.minrating, filterMinNoRatings(filterprofile.minnoratings, filterMaxNoRatings(filterprofile.maxnoratings,filterMaxPrice(filterprofile.maxprice,removeduplicateLocations(locations))))));
 
-        return filterMinRating(filterprofile.minrating, filterMinNoRatings(filterprofile.minnoratings, filterMaxNoRatings(filterprofile.maxnoratings,filterMaxPrice(filterprofile.maxprice,removeduplicateLocations(locations)))));
+    }
+    else{
+        return (filterMinRating(filterprofile.minrating, filterMinNoRatings(filterprofile.minnoratings, filterMaxNoRatings(filterprofile.maxnoratings,filterMaxPrice(filterprofile.maxprice,removeduplicateLocations(locations))))));
+
+    }
 
 
 }
 
+function filterRandomHundred(locations){
+
+    var array = []
+
+    for(i = 0; i < locations.length; i++){
+        array.push(i)
+    }
+
+    shuffledarray = shuffle(array);
+
+
+    var newlocations = [];
+    
+    
+    for(var x = 0 ; x < 100; x++)
+    {
+    
+        newlocations.push(locations[shuffledarray[x]]);
+    }
+
+    return newlocations;
+
+}
+
 //console.log(parseQuestionFilters(questions))
-var filt = parseQuestionFilters(questions)
+var filt = parseQuestionFilters(questions3);
+var loc = addLocationsFromCategories(filt["allcategories"], jsondata)
+
 //var loc = addLocationsFromCategories(filt)
 
-console.log(filterAll(filt,loc))
+filterAll(filt,loc).forEach(function (test){
+    console.log(test.name)
+})
 
 //console.log(jsondata.length)
 
